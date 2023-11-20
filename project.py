@@ -82,9 +82,9 @@ class StudyScheduleEnvironment:
 import torch
 import torch.nn as nn
 import torch.optim as optim
-seed = 42  # Choose any seed value
-np.random.seed(seed)
-torch.manual_seed(seed)
+# seed = 42  # Choose any seed value
+# np.random.seed(seed)
+# torch.manual_seed(seed)
  
 class QNetwork(nn.Module):
     def __init__(self, input_size, output_size):
@@ -151,10 +151,10 @@ class QLearningAgent:
 
 # Set parameters
 daily_time_quota = 15
-learning_rate = 0.75
-gamma = 0.95
-epsilon = 0.9
-num_epochs = 50000
+learning_rate = 0.1
+gamma = 0.3
+epsilon = 0.5
+num_epochs = 500
 
 # Create environment and agent
 env = StudyScheduleEnvironment(daily_time_quota)
