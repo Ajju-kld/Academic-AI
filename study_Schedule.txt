@@ -1,0 +1,61 @@
+// The pool of data
+ self.task_pool = [
+    {'subject': 'Math', 'description': 'Algebra', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 5},
+    {'subject': 'Physics', 'description': 'Mechanics', 'min_study_time': 3, 'max_study_time': 5, 'priority': 4, 'prerequisite': 'Algebra', 'deadline': 4},
+    {'subject': 'Physics', 'description': 'Electromagnetism', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': 'Mechanics', 'deadline': 6},
+    {'subject': 'Chemistry', 'description': 'Organic Chemistry', 'min_study_time': 2, 'max_study_time': 4, 'priority': 2, 'prerequisite': 'Electromagnetism', 'deadline': 8},
+    {'subject': 'Chemistry', 'description': 'Inorganic Chemistry', 'min_study_time': 1, 'max_study_time': 3, 'priority': 2, 'prerequisite': 'Organic Chemistry', 'deadline': 7},
+    {'subject': 'Biology', 'description': 'Cell Biology', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 6},
+    {'subject': 'Biology', 'description': 'Genetics', 'min_study_time': 3, 'max_study_time': 5, 'priority': 4, 'prerequisite': 'Cell Biology', 'deadline': 5},
+    {'subject': 'Computer Science', 'description': 'Programming Fundamentals', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 7},
+    {'subject': 'Computer Science', 'description': 'Data Structures', 'min_study_time': 3, 'max_study_time': 5, 'priority': 4, 'prerequisite': 'Programming Fundamentals', 'deadline': 6},
+    {'subject': 'Computer Science', 'description': 'Algorithms', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': 'Data Structures', 'deadline': 8},
+    {'subject': 'History', 'description': 'World War I', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 6},
+    {'subject': 'History', 'description': 'Renaissance', 'min_study_time': 3, 'max_study_time': 5, 'priority': 4, 'prerequisite': 'World War I', 'deadline': 5},
+    {'subject': 'Literature', 'description': 'Shakespearean Plays', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 7},
+    {'subject': 'Literature', 'description': 'Modern Poetry', 'min_study_time': 3, 'max_study_time': 5, 'priority': 4, 'prerequisite': 'Shakespearean Plays', 'deadline': 6},
+    {'subject': 'Art', 'description': 'Impressionism', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 8},
+    {'subject': 'Art', 'description': 'Surrealism', 'min_study_time': 1, 'max_study_time': 3, 'priority': 2, 'prerequisite': 'Impressionism', 'deadline': 7},
+    {'subject': 'Economics', 'description': 'Microeconomics', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 6},
+    {'subject': 'Economics', 'description': 'Macroeconomics', 'min_study_time': 3, 'max_study_time': 5, 'priority': 4, 'prerequisite': 'Microeconomics', 'deadline': 5},
+    {'subject': 'Political Science', 'description': 'International Relations', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 7},
+    {'subject': 'Political Science', 'description': 'Comparative Politics', 'min_study_time': 3, 'max_study_time': 5, 'priority': 4, 'prerequisite': 'International Relations', 'deadline': 6},
+    {'subject': 'Psychology', 'description': 'Cognitive Psychology', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 8},
+    {'subject': 'Psychology', 'description': 'Abnormal Psychology', 'min_study_time': 1, 'max_study_time': 3, 'priority': 2, 'prerequisite': 'Cognitive Psychology', 'deadline': 7},
+    {'subject': 'Sociology', 'description': 'Social Movements', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 6},
+    {'subject': 'Sociology', 'description': 'Cultural Sociology', 'min_study_time': 3, 'max_study_time': 5, 'priority': 4, 'prerequisite': 'Social Movements', 'deadline': 5},
+    {'subject': 'Geography', 'description': 'Human Geography', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 7},
+    {'subject': 'Geography', 'description': 'Physical Geography', 'min_study_time': 3, 'max_study_time': 5, 'priority': 4, 'prerequisite': 'Human Geography', 'deadline': 6},
+    {'subject': 'Environmental Science', 'description': 'Climate Change', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 8},
+    {'subject': 'Environmental Science', 'description': 'Biodiversity', 'min_study_time': 1, 'max_study_time': 3, 'priority': 2, 'prerequisite': 'Climate Change', 'deadline': 7},
+    {'subject': 'Music', 'description': 'Classical Music', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 6},
+    {'subject': 'Music', 'description': 'Jazz', 'min_study_time': 3, 'max_study_time': 5, 'priority': 4, 'prerequisite': 'Classical Music', 'deadline': 5},
+    {'subject': 'Language', 'description': 'Spanish', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 7},
+    {'subject': 'Language', 'description': 'Chinese', 'min_study_time': 3, 'max_study_time': 5, 'priority': 4, 'prerequisite': 'Spanish', 'deadline': 6},
+    {'subject': 'Philosophy', 'description': 'Ethics', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 8},
+    {'subject': 'Philosophy', 'description': 'Existentialism', 'min_study_time': 1, 'max_study_time': 3, 'priority': 2, 'prerequisite': 'Ethics', 'deadline': 7},
+    {'subject': 'Health', 'description': 'Nutrition', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 6},
+    {'subject': 'Health', 'description': 'Mental Health', 'min_study_time': 3, 'max_study_time': 5, 'priority': 4, 'prerequisite': 'Nutrition', 'deadline': 5},
+    {'subject': 'Engineering', 'description': 'Introduction to Engineering', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': None, 'deadline': 7},
+    {'subject': 'Engineering', 'description': 'Computer Engineering', 'min_study_time': 3, 'max_study_time': 5, 'priority': 4, 'prerequisite': 'Introduction to Engineering', 'deadline': 6},
+    {'subject': 'Engineering', 'description': 'Electrical Engineering', 'min_study_time': 2, 'max_study_time': 4, 'priority': 3, 'prerequisite': 'Computer Engineering', 'deadline': 8},
+    # Add more topics as needed
+]
+
+
+
+// previous version with less training time
+Subject: Art, Task: Impressionism, Study Time: 3 hours
+Subject: Art, Task: Impressionism, Study Time: 4 hours
+Subject: Physics, Task: Electromagnetism, Study Time: 4 hours
+Subject: Art, Task: Impressionism, Study Time: 2 hours
+Subject: Psychology, Task: Cognitive Psychology, Study Time: 2 hours
+
+
+// the output after training the algorithm with the data for 1458 seconds
+Subject: Psychology, Task: Abnormal Psychology, Study Time: 2 hours
+Subject: Literature, Task: Shakespearean Plays, Study Time: 2 hours
+Subject: Political Science, Task: International Relations, Study Time: 2 hours
+Subject: Chemistry, Task: Organic Chemistry, Study Time: 2 hours
+Subject: Environmental Science, Task: Biodiversity, Study Time: 3 hours
+Subject: Biology, Task: Genetics, Study Time: 4 hours
