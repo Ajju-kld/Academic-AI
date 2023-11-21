@@ -1,0 +1,6 @@
+torch==1.9.1
+numpy==1.21.0
+deepdoctection==0.28 
+IPython==8.17.2         
+matplotlib==3.8.2  
+numexpr==2.8.7          
