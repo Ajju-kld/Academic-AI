@@ -5,13 +5,13 @@ import os
 import numexpr as ne
 
 os.environ['NUMEXPR_MAX_THREADS'] = '10'
-ne.set_num_threads(4)
+ne.set_num_threads(10)
 
 # Instantiate the deepdoctection analyzer
-analyzer = dd.get_dd_analyzer()
+analyzer = dd.get_dd_analyzer(["USE_OCR=True"])
 
 # Analyze the PDF document
-df = analyzer.analyze(path="ktu.pdf")
+df = analyzer.analyze(path="pdf/ktu.pdf")
 
 # Reset the state (trigger some initialization)
 df.reset_state()

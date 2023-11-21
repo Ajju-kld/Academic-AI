@@ -1,5 +1,8 @@
 import numpy as np
 import time
+import torch
+import torch.nn as nn
+import torch.optim as optim
 
 class StudyScheduleEnvironment:
     def __init__(self, daily_time_quota):
@@ -54,6 +57,9 @@ class StudyScheduleEnvironment:
         self.state = self.daily_time_quota
         self.completed_topics = set()
         return self.state
+    def is_episode_done(self):
+        # Check if the available study time for the day is exhausted
+        return self.state <= 0  
 
     def step(self, action):
         task = self.task_pool[action]
@@ -79,12 +85,10 @@ class StudyScheduleEnvironment:
             self.completed_topics.add(task['subject'])
 
         return self.state, reward
-import torch
-import torch.nn as nn
-import torch.optim as optim
-# seed = 42  # Choose any seed value
-# np.random.seed(seed)
-# torch.manual_seed(seed)
+
+seed = 42  # Choose any seed value
+np.random.seed(seed)
+torch.manual_seed(seed)
  
 class QNetwork(nn.Module):
     def __init__(self, input_size, output_size):
@@ -112,21 +116,25 @@ class QLearningAgent:
         self.criterion = nn.MSELoss()
 
     def select_action(self, state):
-        if np.random.rand() < self.epsilon:
+        f=np.random.rand()
+        if f < self.epsilon:
+            # print("random selection is too short\n",f)
             return np.random.choice(len(self.env.task_pool))
         else:
             with torch.no_grad():
                 q_values = self.q_network(torch.tensor([state], dtype=torch.float32))
-                
+                # print("qvalues: ",q_values)
                 return torch.argmax(q_values).item()
+           
 
     def train(self):
         for epoch in range(self.num_epochs):
             state = self.env.reset()
             total_reward = 0
             self.env.completed_topics = set()  # Reset completed topics for each epoch
-
-            while state > 0:
+            max_steps = 1000  # Adjust as needed
+            step_count = 0
+            while step_count < max_steps:
                 action = self.select_action(state)
                 next_state, reward = self.env.step(action)
 
@@ -137,29 +145,35 @@ class QLearningAgent:
                 target_q_value = reward + self.gamma * max_q_value_next
                 current_q_value = self.q_network(torch.tensor([state], dtype=torch.float32))[action]
 
-                loss = self.criterion(current_q_value, torch.tensor([target_q_value], dtype=torch.float32))
+                loss = self.criterion(current_q_value, torch.tensor(target_q_value))
+
                 self.optimizer.zero_grad()
                 loss.backward()
                 self.optimizer.step()
 
                 total_reward += reward
                 state = next_state
-                if(state == 1):
+                step_count+=1
+                if self.env.is_episode_done():
                     break
+                
 
             print(f'Epoch {epoch + 1}/{self.num_epochs}, Total Reward: {total_reward}')
+        torch.save(self.q_network.state_dict(), "qnetwork.pth")
+        print(self.q_network.state_dict())
 
 # Set parameters
-daily_time_quota = 15
-learning_rate = 0.1
-gamma = 0.3
-epsilon = 0.5
-num_epochs = 500
+daily_time_quota = 12  # Assuming 12 hours available for study each week
+learning_rate = 0.01
+gamma = 0.9
+epsilon = 0.3
+num_epochs = 150
 
 # Create environment and agent
 env = StudyScheduleEnvironment(daily_time_quota)
 agent = QLearningAgent(env, learning_rate, gamma, epsilon, num_epochs)
 start_time = time.time()
+print(agent.q_network)
 print("reached the training phase")
 # Train the agent
 agent.train()
@@ -171,9 +185,15 @@ print(f"Training completed successfully. Training Time: {training_time} seconds"
 def generate_study_schedule(agent, env):
     state = env.reset()
     schedule = []
+    selected_tasks = set()
 
     while state > 0:
         action = agent.select_action(state)
+
+        # Check if the task has already been selected
+        if action in selected_tasks:
+            continue
+
         task = env.task_pool[action]
         task_time = np.random.randint(task['min_study_time'], task['max_study_time'] + 1)
 
@@ -181,7 +201,11 @@ def generate_study_schedule(agent, env):
             schedule.append({'Subject': task['subject'], 'Task': task['description'], 'StudyTime': task_time})
             state -= task_time
 
+            # Add the index to the set of selected tasks
+            selected_tasks.add(action)
+
     return schedule
+
 
 # Generate a study schedule using the trained agent
 final_schedule = generate_study_schedule(agent, env)
