@@ -5,7 +5,7 @@
 To install the required Python packages, run the following command:
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirement.txt
 ```
 # To start the scheduler code 
     python3 project.py
