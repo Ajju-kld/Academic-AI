@@ -52,7 +52,7 @@ model = QLearning("MlpPolicy", env, verbose=1)
 
 # Train the Q-learning agent
 model.learn(total_timesteps=10000)
-
+            
 # Get the optimal schedule
 schedule = []
 state = daily_time_quota
