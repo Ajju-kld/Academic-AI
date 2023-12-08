@@ -1,8 +1,7 @@
 import numpy as np
 import time
-import torch
-import torch.nn as nn
-import torch.optim as optim
+import tensorflow as tf
+from tensorflow.keras import layers, models
 
 class StudyScheduleEnvironment:
     def __init__(self, daily_time_quota):
@@ -88,17 +87,20 @@ class StudyScheduleEnvironment:
 
 seed = 42  # Choose any seed value
 np.random.seed(seed)
-torch.manual_seed(seed)
+# torch.manual_seed(seed)
  
-class QNetwork(nn.Module):
+class QNetwork(models.Model):
     def __init__(self, input_size, output_size):
         super(QNetwork, self).__init__()
-        self.fc1 = nn.Linear(input_size, 64)
-        self.relu = nn.ReLU()
-        self.fc2 = nn.Linear(64, output_size)
+        self.fc1 = layers.Dense(64, activation='relu')
+        self.fc2 = layers.Dense(output_size)
 
-    def forward(self, x):
-        x = self.relu(self.fc1(x))
+    def call(self, x):
+        # Add a check for 1D input and reshape if necessary
+        if len(x.shape) == 1:
+            x = tf.expand_dims(x, axis=0)
+
+        x = self.fc1(x)
         x = self.fc2(x)
         return x
 
@@ -112,20 +114,17 @@ class QLearningAgent:
 
         # Create Q-network
         self.q_network = QNetwork(1, len(env.task_pool))
-        self.optimizer = optim.Adam(self.q_network.parameters(), lr=learning_rate)
-        self.criterion = nn.MSELoss()
+        self.optimizer = tf.keras.optimizers.Adam(learning_rate)
+        self.criterion = tf.keras.losses.MeanSquaredError()
 
     def select_action(self, state):
-        f=np.random.rand()
+        f = np.random.rand()
         if f < self.epsilon:
-            # print("random selection is too short\n",f)
             return np.random.choice(len(self.env.task_pool))
         else:
-            with torch.no_grad():
-                q_values = self.q_network(torch.tensor([state], dtype=torch.float32))
-                # print("qvalues: ",q_values)
-                return torch.argmax(q_values).item()
-           
+            state = np.expand_dims(state, axis=0)  # Add a batch dimension
+            q_values = self.q_network(state.astype(np.float32))
+            return np.argmax(q_values)
 
     def train(self):
         for epoch in range(self.num_epochs):
@@ -138,32 +137,31 @@ class QLearningAgent:
                 action = self.select_action(state)
                 next_state, reward = self.env.step(action)
 
-                with torch.no_grad():
-                    q_values_next = self.q_network(torch.tensor([next_state], dtype=torch.float32))
-                    max_q_value_next = torch.max(q_values_next).item()
+                with tf.GradientTape() as tape:
+                    q_values_next = self.q_network(np.array([next_state], dtype=np.float32))
+                    max_q_value_next = tf.reduce_max(q_values_next)
 
-                target_q_value = reward + self.gamma * max_q_value_next
-                current_q_value = self.q_network(torch.tensor([state], dtype=torch.float32))[action]
+                    target_q_value = reward + self.gamma * max_q_value_next
+                    current_q_value = self.q_network(np.array([state], dtype=np.float32))[0, action]
 
-                loss = self.criterion(current_q_value, torch.tensor(target_q_value))
+                    loss = self.criterion(current_q_value, target_q_value)
 
-                self.optimizer.zero_grad()
-                loss.backward()
-                self.optimizer.step()
+                gradients = tape.gradient(loss, self.q_network.trainable_variables)
+                self.optimizer.apply_gradients(zip(gradients, self.q_network.trainable_variables))
 
                 total_reward += reward
                 state = next_state
-                step_count+=1
+                step_count += 1
                 if self.env.is_episode_done():
                     break
-                
 
             print(f'Epoch {epoch + 1}/{self.num_epochs}, Total Reward: {total_reward}')
-        torch.save(self.q_network.state_dict(), "qnetwork.pth")
-        print(self.q_network.state_dict())
+
+        # Save the model
+        self.q_network.save_weights("qnetwork.h5")
 
 # Set parameters
-daily_time_quota = 12  # Assuming 12 hours available for study each week
+daily_time_quota = 12  # Assuming 12 hours available for study each day
 learning_rate = 0.01
 gamma = 0.9
 epsilon = 0.3
@@ -172,9 +170,7 @@ num_epochs = 150
 # Create environment and agent
 env = StudyScheduleEnvironment(daily_time_quota)
 agent = QLearningAgent(env, learning_rate, gamma, epsilon, num_epochs)
-start_time = time.time()
-print(agent.q_network)
-print("reached the training phase")
+
 # Train the agent
 agent.train()
 
