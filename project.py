@@ -133,32 +133,36 @@ class QLearningAgent:
             self.env.completed_topics = set()  # Reset completed topics for each epoch
             max_steps = 1000  # Adjust as needed
             step_count = 0
-            while step_count < max_steps:
-                action = self.select_action(state)
-                next_state, reward = self.env.step(action)
+            with tf.device('/GPU:0'):
+                while step_count < max_steps:
+                    action = self.select_action(state)
+                    next_state, reward = self.env.step(action)
 
-                with tf.GradientTape() as tape:
-                    q_values_next = self.q_network(np.array([next_state], dtype=np.float32))
-                    max_q_value_next = tf.reduce_max(q_values_next)
+                    with tf.GradientTape() as tape:
+                        q_values_next = self.q_network(np.array([next_state], dtype=np.float32))
+                        max_q_value_next = tf.reduce_max(q_values_next)
 
-                    target_q_value = reward + self.gamma * max_q_value_next
-                    current_q_value = self.q_network(np.array([state], dtype=np.float32))[0, action]
+                        target_q_value = reward + self.gamma * max_q_value_next
+                        current_q_value = self.q_network(np.array([state], dtype=np.float32))[0, action]
 
-                    loss = self.criterion(current_q_value, target_q_value)
+                        loss = self.criterion(tf.expand_dims(current_q_value, 0), tf.expand_dims(target_q_value, 0))
 
-                gradients = tape.gradient(loss, self.q_network.trainable_variables)
-                self.optimizer.apply_gradients(zip(gradients, self.q_network.trainable_variables))
+                    gradients = tape.gradient(loss, self.q_network.trainable_variables)
+                    self.optimizer.apply_gradients(zip(gradients, self.q_network.trainable_variables))
 
-                total_reward += reward
-                state = next_state
-                step_count += 1
-                if self.env.is_episode_done():
-                    break
+                    total_reward += reward
+                    state = next_state
+                    step_count += 1
+                    if self.env.is_episode_done():
+                        break
 
             print(f'Epoch {epoch + 1}/{self.num_epochs}, Total Reward: {total_reward}')
 
         # Save the model
         self.q_network.save_weights("qnetwork.h5")
+    def load_model(self, filepath):
+        # Load the model weights
+        self.q_network.load_weights(filepath)
 
 # Set parameters
 daily_time_quota = 12  # Assuming 12 hours available for study each day
@@ -170,9 +174,11 @@ num_epochs = 150
 # Create environment and agent
 env = StudyScheduleEnvironment(daily_time_quota)
 agent = QLearningAgent(env, learning_rate, gamma, epsilon, num_epochs)
-
+start_time = time.time()
+print(agent.q_network)
 # Train the agent
 agent.train()
+agent.load_model("./qnetwork.h5")
 
 training_time = time.time() - start_time
 print(f"Training completed successfully. Training Time: {training_time} seconds")
