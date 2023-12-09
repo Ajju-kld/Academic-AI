@@ -131,7 +131,7 @@ class QLearningAgent:
             state = self.env.reset()
             total_reward = 0
             self.env.completed_topics = set()  # Reset completed topics for each epoch
-            max_steps = 1000  # Adjust as needed
+            max_steps = 75  # Adjust as needed
             step_count = 0
             with tf.device('/GPU:0'):
                 while step_count < max_steps:
@@ -194,6 +194,7 @@ def generate_study_schedule(agent, env):
 
         # Check if the task has already been selected
         if action in selected_tasks:
+            print("Task has already been selected")
             continue
 
         task = env.task_pool[action]
