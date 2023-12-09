@@ -131,6 +131,7 @@ class QLearningAgent:
         for epoch in range(self.num_epochs):
             state = self.env.reset()
             total_reward = 0
+            
             self.env.completed_topics = set()  # Reset completed topics for each epoch
             max_steps = 1000  # Adjust as needed
             step_count = 0
