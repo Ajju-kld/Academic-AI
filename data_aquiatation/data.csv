@@ -1,0 +1,66 @@
+subject,description,min_study_time,max_study_time,priority,prerequisite,deadline
+Linear Algebra and Calculus,Systems of Linear Equations,2,4,3,,6
+Linear Algebra and Calculus,"Gauss Elimination, Row Echelon Form, and Rank of a Matrix",3,5,4,Systems of Linear Equations,5
+Linear Algebra and Calculus,Fundamental Theorem for Linear Systems,2,4,3,"Gauss Elimination, Row Echelon Form, and Rank of a Matrix",7
+Linear Algebra and Calculus,Eigenvalues and Eigenvectors,3,5,4,Fundamental Theorem for Linear Systems,5
+Linear Algebra and Calculus,Diagonalization of Matrices,2,4,3,Eigenvalues and Eigenvectors,7
+Linear Algebra and Calculus,"Orthogonal Transformation, Quadratic Forms, and Canonical Forms",3,5,4,Diagonalization of Matrices,8
+Linear Algebra and Calculus,Limit and Continuity of Functions of Two Variables,2,4,3,,6
+Linear Algebra and Calculus,"Partial Derivatives, Chain Rule, and Total Derivative",3,5,4,Limit and Continuity of Functions of Two Variables,5
+Linear Algebra and Calculus,Relative Maxima and Minima,2,4,3,"Partial Derivatives, Chain Rule, and Total Derivative",7
+Linear Algebra and Calculus,Absolute Maxima and Minima on Closed and Bounded Set,3,5,4,Relative Maxima and Minima,6
+Linear Algebra and Calculus,Double Integrals (Cartesian),2,4,3,,6
+Linear Algebra and Calculus,Reversing the Order of Integration,3,5,4,Double Integrals (Cartesian),7
+Linear Algebra and Calculus,Change of Coordinates (Cartesian to Polar),2,4,3,Reversing the Order of Integration,8
+Linear Algebra and Calculus,Finding Areas and Volume Using Double Integrals,3,5,4,Change of Coordinates (Cartesian to Polar),6
+Linear Algebra and Calculus,Mass and Centre of Gravity of Inhomogeneous Laminas Using Double Integral,2,4,3,Finding Areas and Volume Using Double Integrals,7
+Linear Algebra and Calculus,Triple Integrals,3,5,4,Mass and Centre of Gravity of Inhomogeneous Laminas Using Double Integral,8
+Linear Algebra and Calculus,Volume Calculated as Triple Integral,2,4,3,Triple Integrals,6
+Linear Algebra and Calculus,Triple Integral in Cylindrical and Spherical Coordinates,3,5,4,Volume Calculated as Triple Integral,7
+Linear Algebra and Calculus,"Computations Involving Spheres, Cylinders",2,4,3,Triple Integral in Cylindrical and Spherical Coordinates,8
+Linear Algebra and Calculus,Convergence of Sequences and Series,2,4,3,,6
+Linear Algebra and Calculus,Convergence of Geometric Series and P-Series,3,5,4,Convergence of Sequences and Series,5
+Linear Algebra and Calculus,"Test of Convergence (Comparison, Ratio, and Root Tests)",2,4,3,Convergence of Geometric Series and P-Series,7
+Linear Algebra and Calculus,Alternating Series and Leibnitz Test,3,5,4,"Test of Convergence (Comparison, Ratio, and Root Tests)",6
+Linear Algebra and Calculus,Absolute and Conditional Convergence,2,4,3,Alternating Series and Leibnitz Test,8
+Linear Algebra and Calculus,Taylor Series,3,5,4,,5
+Linear Algebra and Calculus,"Binomial Series and Series Representation of Exponential, Trigonometric, Logarithmic Functions",2,4,3,Taylor Series,7
+Linear Algebra and Calculus,Fourier Series,3,5,4,"Binomial Series and Series Representation of Exponential, Trigonometric, Logarithmic Functions",8
+Linear Algebra and Calculus,Euler Formulas,2,4,3,Fourier Series,6
+Linear Algebra and Calculus,Convergence of Fourier Series,3,5,4,Euler Formulas,7
+Linear Algebra and Calculus,"Half Range Sine and Cosine Series, Parseval’s Theorem",2,4,3,Convergence of Fourier Series,8
+Engineering Chemistry,Introduction to Electrochemistry and Differences between Electrolytic and Electrochemical Cells,2,4,3,,6
+Engineering Chemistry,Electrochemical Cells and Redox Reactions,3,5,4,Introduction to Electrochemistry and Differences between Electrolytic and Electrochemical Cells,5
+Engineering Chemistry,Cell Representation and Types of Electrodes,2,4,3,Electrochemical Cells and Redox Reactions,6
+Engineering Chemistry,Reference Electrodes and SHE,3,5,4,Cell Representation and Types of Electrodes,5
+Engineering Chemistry,Introduction to Spectroscopic Techniques and Types of Spectrum,2,4,3,,6
+Engineering Chemistry,UV-Visible Spectroscopy Principles and Applications,3,5,4,Introduction to Spectroscopic Techniques and Types of Spectrum,5
+Engineering Chemistry,Molecular Energy Levels and Beer Lambert’s Law,2,4,3,UV-Visible Spectroscopy Principles and Applications,6
+Engineering Chemistry,IR-Spectroscopy Principles and Applications,3,5,4,Molecular Energy Levels and Beer Lambert’s Law,5
+Engineering Chemistry,1H NMR Spectroscopy Principles and Applications,2,4,3,IR-Spectroscopy Principles and Applications,6
+Engineering Chemistry,Principles of Thermal Analysis and Applications,2,4,3,,6
+Engineering Chemistry,Chromatographic Methods and Nanomaterials,3,5,4,Principles of Thermal Analysis and Applications,5
+Engineering Chemistry,TGA and DTA Principles and Applications,2,4,3,Chromatographic Methods and Nanomaterials,6
+Engineering Chemistry,Basic Principles and Applications of Column Chromatography,3,5,4,TGA and DTA Principles and Applications,5
+Engineering Chemistry,GC and HPLC Principles and Applications,2,4,3,Basic Principles and Applications of Column Chromatography,6
+Engineering Chemistry,Isomerism and Representation of 3D Structures,2,4,3,,6
+Engineering Chemistry,Stereoisomerism and Conformational Analysis,3,5,4,Isomerism and Representation of 3D Structures,5
+Engineering Chemistry,Geometrical Isomerism and Optical Isomerism,2,4,3,Stereoisomerism and Conformational Analysis,6
+Engineering Chemistry,R-S Notation and Optical Isomerism,3,5,4,Geometrical Isomerism and Optical Isomerism,5
+Engineering Chemistry,Water Characteristics and Hardness,2,4,3,,6
+Engineering Chemistry,Water Softening Methods and Reverse Osmosis,3,5,4,Water Characteristics and Hardness,5
+Engineering Chemistry,Disinfection Methods and Municipal Water Treatment,2,4,3,Water Softening Methods and Reverse Osmosis,6
+Engineering Chemistry,Dissolved Oxygen and Water Treatment,3,5,4,Disinfection Methods and Municipal Water Treatment,5
+Engineering Chemistry,Sewage Water Treatment and Flow Diagrams,2,4,3,Dissolved Oxygen and Water Treatment,6
+Basics of Civil & Mechanical Engineering,Relevance of Civil Engineering in Infrastructural Development,2,4,3,,6
+Basics of Civil & Mechanical Engineering,Responsibility of an Engineer in Ensuring Safety,3,5,4,Relevance of Civil Engineering in Infrastructural Development,5
+Basics of Civil & Mechanical Engineering,Introduction to Major Disciplines of Civil Engineering,2,4,3,Responsibility of an Engineer in Ensuring Safety,6
+Basics of Civil & Mechanical Engineering,"Importance, Objectives, and Principles of Surveying",2,4,3,,6
+Basics of Civil & Mechanical Engineering,"Conventional Construction Materials: Bricks, Stones, Cement, Sand, and Timber",3,5,4,"Importance, Objectives, and Principles of Surveying",5
+Basics of Civil & Mechanical Engineering,"Cement Concrete and Steel: Constituents, Properties, and Types",2,4,3,"Conventional Construction Materials: Bricks, Stones, Cement, Sand, and Timber",6
+Basics of Civil & Mechanical Engineering,"Foundations: Bearing Capacity, Functions, and Types",2,4,3,,6
+Basics of Civil & Mechanical Engineering,Brick Masonry and Roofs/Floors: Types and Functions,3,5,4,"Foundations: Bearing Capacity, Functions, and Types",5
+Basics of Civil & Mechanical Engineering,"Basic Infrastructure Services: MEP, HVAC, Elevators, etc.",2,4,3,Brick Masonry and Roofs/Floors: Types and Functions,6
+Basics of Civil & Mechanical Engineering,"Analysis of Thermodynamic Cycles: Carnot, Otto, Diesel",2,4,3,,6
+Basics of Civil & Mechanical Engineering,"IC Engines: CI, SI, 2-Stroke, 4-Stroke",3,5,4,"Analysis of Thermodynamic Cycles: Carnot, Otto, Diesel",5
+Basics of Civil & Mechanical Engineering,Efficiencies of IC Engines and Systems,2,4,3,"IC Engines: CI, SI, 2-Stroke, 4-Stroke",6

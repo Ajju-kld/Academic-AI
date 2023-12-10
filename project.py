@@ -1,13 +1,12 @@
 import numpy as np
+import pandas as pd
 import time
 
 class StudyScheduleEnvironment:
-    def __init__(self, daily_time_quota):
+    def __init__(self, daily_time_quota, task_pool):
         self.daily_time_quota = daily_time_quota
         self.state = daily_time_quota
-        self.task_pool = [
-            # ... (your task pool definition remains the same)
-        ]
+        self.task_pool = task_pool
         self.completed_topics = set()
 
     def reset(self):
@@ -20,7 +19,7 @@ class StudyScheduleEnvironment:
 
     def step(self, action):
         task = self.task_pool[action]
-
+        
         if task['prerequisite'] and task['prerequisite'] not in self.completed_topics:
             return self.state, 0  # Can't study this topic if the prerequisite is not completed
 
@@ -36,6 +35,7 @@ class StudyScheduleEnvironment:
         if task_time <= self.state:
             self.state -= task_time
             reward = task['priority']
+            
             self.completed_topics.add(task['subject'])
 
         return self.state, reward
@@ -82,11 +82,13 @@ class QLearningAgent:
                 total_reward += reward
                 state = next_state
                 step_count += 1
+                
 
                 if self.env.is_episode_done():
                     break
 
             print(f'Epoch {epoch + 1}/{self.num_epochs}, Total Reward: {total_reward}')
+            # print('Q-values:', self.q_table)
 
         print("Q-table:")
         print(self.q_table)
@@ -99,8 +101,13 @@ gamma = 0.9
 epsilon = 0.3
 num_epochs = 150
 
+# Read task pool from CSV file
+task_pool_df = pd.read_csv('data.csv')
+task_pool = task_pool_df.to_dict('records')
+print('Task pool:', task_pool)
+
 # Create environment and agent
-env = StudyScheduleEnvironment(daily_time_quota)
+env = StudyScheduleEnvironment(daily_time_quota, task_pool)
 agent = QLearningAgent(env, learning_rate, gamma, epsilon, num_epochs)
 start_time = time.time()
 print("reached the training phase")
