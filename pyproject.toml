@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "academic-ai"
+version = "0.1.0"
+description = ""
+authors = ["Ajju-kld <mohammedajmal996@gmail.com>"]
+readme = "README.md"
+packages = [{include = "academic_ai"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+torch = "^2.1.1"
+numpy = "^1.26.2"
+pandas = "^2.1.4"
+matplotlib = "^3.8.2"
+deepdoctection = "^0.28"
+
+[tool.poetry.group.dev.dependencies]
+tensorflow = "^2.15.0.post1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
