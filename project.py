@@ -57,21 +57,17 @@ class StudyScheduleEnvironment:
         self.state = self.daily_time_quota
         self.completed_topics = set()
         return self.state
+
     def is_episode_done(self):
-        # Check if the available study time for the day is exhausted
-        return self.state <= 0  
+        return self.state <= 0
 
     def step(self, action):
         task = self.task_pool[action]
-        
-        # Check if the task has a prerequisite
-        if task['prerequisite'] and task['prerequisite'] not in self.completed_topics:
-            return self.state, 0  # Can't study this topic if the prerequisite is not completed
 
         # Check if the same subject topic has already been studied on the same day
         if task['subject'] in self.completed_topics:
             # Check if the deadline is close, allowing the same subject topic on the same day
-            if task['deadline'] <= 2:  # You can adjust the threshold for a close deadline
+            if task['deadline'] <= 2:
                 pass
             else:
                 return self.state, 0  # Can't study the same subject on the same day
@@ -164,7 +160,7 @@ class QLearningAgent:
         print(self.q_network.state_dict())
 
 # Set parameters
-daily_time_quota = 12  # Assuming 12 hours available for study each week
+daily_time_quota = 240  # Maximum daily study time in minutes  
 learning_rate = 0.01
 gamma = 0.9
 epsilon = 0.3
