@@ -3,27 +3,6 @@ import time
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import tkinter as tk
-from tkinter import scrolledtext
-
-class StudySchedulerUI:
-    def __init__(self, root, agent, env):
-        self.root = root
-        self.agent = agent
-        self.env = env
-        self.schedule_text = scrolledtext.ScrolledText(root, width=40, height=20)
-        self.schedule_text.pack(pady=10)
-        self.generate_button = tk.Button(root, text="Generate Study Schedule", command=self.generate_schedule)
-        self.generate_button.pack(pady=5)
-
-    def generate_schedule(self):
-        final_schedule = generate_study_schedule(self.agent, self.env)
-        self.schedule_text.delete(1.0, tk.END)  # Clear previous text
-        for entry in final_schedule:
-            schedule_entry = f"Subject: {entry['Subject']}, Task: {entry['Task']}, Study Time: {entry['StudyTime']} hours\n"
-            self.schedule_text.insert(tk.END, schedule_entry)
-
-
 
 class StudyScheduleEnvironment:
     def __init__(self, daily_time_quota):
@@ -258,9 +237,9 @@ start_time = time.time()
 print(agent.q_network)
 print("reached the training phase")
 # Train the agent
-# agent.train()
-root = tk.Tk()
-root.title("Study Scheduler")
+agent.train()
+# root = tk.Tk()
+# root.title("Study Scheduler")
 
 
 training_time = time.time() - start_time

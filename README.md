@@ -9,3 +9,11 @@ pip install -r requirement.txt
 ```
 # To start the scheduler code 
     python3 project.py
+
+
+# To start using poetry 
+
+```bash
+poetry install
+poetry shell
+```
